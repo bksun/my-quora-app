@@ -22,7 +22,8 @@ class Comment(models.Model):
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('comment_text', 'author', 'date_created')
- 
+    list_filter = ('date_created', 'author')
+
 
 class Answer(models.Model):
 
@@ -43,7 +44,18 @@ class Answer(models.Model):
 
 class AnswerAdmin(admin.ModelAdmin):
     list_display = ('question', 'answer_text', 'author', 'date_created', 'upvote', 'downvote', 'views')
-
+    list_filter = ('date_created', 'author', 'upvote', 'downvote', 'views')
+    fieldsets = (
+        (None, {
+            'fields': ('author','question', 'answer_text')
+        }),
+        ('Dates', {
+            'fields': ('date_created', 'date_updated')
+        }),
+        ('Actions', {
+            'fields': ('upvote', 'downvote','views')
+        }),
+    )
 
 class Question(models.Model):
 
@@ -64,7 +76,8 @@ class Question(models.Model):
 
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('question_text', 'author', 'date_created')
- 
+    list_filter = ('date_created', 'author')
+
 
 class Author(models.Model):
 
