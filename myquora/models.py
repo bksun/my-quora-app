@@ -17,7 +17,7 @@ class Comment(models.Model):
     
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.question_text}'
+        return f'{self.comment_text}'
 
 
 class Answer(models.Model):
@@ -34,7 +34,7 @@ class Answer(models.Model):
     
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.question_text}'
+        return f'Que: {self.question.question_text[:50]}.. Ans: {self.answer_text[:50]}..'
 
 
 class Question(models.Model):
@@ -44,6 +44,10 @@ class Question(models.Model):
     question_text = models.TextField(max_length=1000, help_text='Enter your question in brief∂')
     date_created = models.DateField(null=True, blank=True)
     date_updated = models.DateField(null=True, blank=True)
+
+    # def get_absolute_url(self):
+    #     """Returns the url to access a particular question and its answer."""
+    #     return reverse('question-detail', args=[str(self.id)])
 
     def __str__(self):
         """String for representing the Model object."""
