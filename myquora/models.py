@@ -17,8 +17,12 @@ class Comment(models.Model):
     
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.comment_text}'
+        return f'{self.comment_text[:20]}..'
 
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('comment_text', 'author', 'date_created')
+ 
 
 class Answer(models.Model):
 
@@ -35,6 +39,10 @@ class Answer(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'Que: {self.question.question_text[:50]}.. Ans: {self.answer_text[:50]}..'
+
+
+class AnswerAdmin(admin.ModelAdmin):
+    list_display = ('question', 'answer_text', 'author', 'date_created', 'upvote', 'downvote', 'views')
 
 
 class Question(models.Model):
@@ -54,13 +62,17 @@ class Question(models.Model):
         return f'{self.question_text}'
 
 
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ('question_text', 'author', 'date_created')
+ 
+
 class Author(models.Model):
 
     """Model representing an author."""
     username = models.CharField(max_length=100)
     email = models.EmailField(max_length=70,blank=True)
     date_created = models.DateField(null=True, blank=True)
-    credits = models.IntegerField(null=True, blank=True)
+    credits = models.IntegerField(default=0)
 
 
     # def get_absolute_url(self):
@@ -70,3 +82,8 @@ class Author(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.username}'
+
+
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'date_created', 'credits')
+    
