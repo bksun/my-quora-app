@@ -82,7 +82,7 @@ class QuestionAdmin(admin.ModelAdmin):
 class Author(models.Model):
 
     """Model representing an author."""
-    username = models.CharField(max_length=100)
+    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
     email = models.EmailField(max_length=70,blank=True)
     date_created = models.DateField(null=True, blank=True)
     credits = models.IntegerField(default=0)
@@ -94,9 +94,9 @@ class Author(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.username}'
+        return f'{self.user.username}'
 
 
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'date_created', 'credits')
+    list_display = ('user', 'email', 'date_created', 'credits')
     

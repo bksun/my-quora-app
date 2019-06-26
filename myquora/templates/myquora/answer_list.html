@@ -4,7 +4,7 @@
   <h1>answer List</h1>
   {% if answer_list %}
   <ul>
-      <li>
+      
     {% for answer in answer_list %}
       <div class="row text-info">
           &nbsp; {{ answer.question.question_text }} 
@@ -23,7 +23,7 @@
                 (on {{answer.date_updated}}) 
             </div>
         </div>
-       </li>
+       
     {% endfor %}
   </ul>
   {% else %}
