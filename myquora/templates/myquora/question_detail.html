@@ -1,0 +1,53 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="row text-info">
+    <h3>Que: {{ question.question_text }} - {{id}}</h3>
+</div>
+  
+  <div class="text-success">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6"></div>
+        <div class="col">
+          <strong>Author:</strong> <a href="">{{ question.author }}</a><!-- author detail link not yet defined -->
+          <br>
+          <strong>Created On:</strong> {{ question.date_created }}
+        </div>
+    </div>
+
+  <div style="margin-left:20px;margin-top:10px; margin-right: 10px;">
+    
+
+    {% if answer_list %}
+    <ul>
+        <h4>All Answers</h4>
+      {% for answer in answer_list %}
+
+            <hr></hr>
+          <div class="row text-dark">
+            {{ answer.answer_text }}</a> 
+          </div>
+          <br>
+          <br>
+          <div class="row text-success">
+              <div class="col"></div>
+              <div class="col-6"></div>
+              <div class="col">
+                  by {{answer.author}} 
+                  (on {{answer.date_updated}}) 
+              </div>
+          </div>
+         
+      {% endfor %}
+    </ul>
+    {% else %}
+
+    <div class="row col-3 text-danger">
+        There are no answers for this question.
+    </div>
+
+    {% endif %}  
+
+  </div>
+{% endblock %}

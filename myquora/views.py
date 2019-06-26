@@ -6,14 +6,33 @@ from myquora.models import Question, Answer, Comment, Author
 
 from django.views import generic
 
+
+class QuestionDetailView(generic.DetailView):
+    """Generic class-based detail view for a Answer."""
+    model = Question
+    paginate_by = 3
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)
+        questionId = self.kwargs['pk']
+        print(questionId)
+        question = Question.objects.get(id=questionId)
+        context['answer_list'] = Answer.objects.filter(question=question)
+        return context
+
 class AnswerListView(generic.ListView):
     model = Answer
-    paginate_by = 4
+    paginate_by = 3
+
+    
+
 
 
 class QuestionListView(generic.ListView):
     model = Question
-    paginate_by = 4
+    paginate_by = 3
+
 
     # def get_queryset(self):
     #     return Question.objects.filter()[:5] # Get 5 questions containing the title war

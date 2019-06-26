@@ -57,6 +57,7 @@ class AnswerAdmin(admin.ModelAdmin):
         }),
     )
 
+
 class Question(models.Model):
 
     """Model representing a question."""
@@ -67,7 +68,7 @@ class Question(models.Model):
 
     def get_absolute_url(self):
         """Returns the url to access a particular question and its answer."""
-        return reverse('answers')
+        return reverse('question-detail', args=[str(self.id)])
 
     def __str__(self):
         """String for representing the Model object."""
