@@ -65,9 +65,9 @@ class Question(models.Model):
     date_created = models.DateField(null=True, blank=True)
     date_updated = models.DateField(null=True, blank=True)
 
-    # def get_absolute_url(self):
-    #     """Returns the url to access a particular question and its answer."""
-    #     return reverse('question-detail', args=[str(self.id)])
+    def get_absolute_url(self):
+        """Returns the url to access a particular question and its answer."""
+        return reverse('answers')
 
     def __str__(self):
         """String for representing the Model object."""

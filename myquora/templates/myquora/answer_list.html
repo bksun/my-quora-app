@@ -1,0 +1,32 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>answer List</h1>
+  {% if answer_list %}
+  <ul>
+      <li>
+    {% for answer in answer_list %}
+      <div class="row text-info">
+          &nbsp; {{ answer.question.question_text }} 
+      </div>
+          <hr></hr>
+        <div class="row text-dark">
+          {{ answer.answer_text }}</a> 
+        </div>
+        <br>
+        <br>
+        <div class="row text-success">
+            <div class="col"></div>
+            <div class="col-6"></div>
+            <div class="col">
+                by {{answer.author}} 
+                (on {{answer.date_updated}}) 
+            </div>
+        </div>
+       </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no answers in the library.</p>
+  {% endif %}       
+{% endblock %}

@@ -4,6 +4,21 @@ from django.shortcuts import render
 
 from myquora.models import Question, Answer, Comment, Author
 
+from django.views import generic
+
+class AnswerListView(generic.ListView):
+    model = Answer
+    paginate_by = 4
+
+
+class QuestionListView(generic.ListView):
+    model = Question
+    paginate_by = 4
+
+    # def get_queryset(self):
+    #     return Question.objects.filter()[:5] # Get 5 questions containing the title war
+
+
 def index(request):
     """View function for home page of site."""
 

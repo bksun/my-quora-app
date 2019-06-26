@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>question List</h1>
+  {% if question_list %}
+  <ul>
+    {% for question in question_list %}
+      <li>
+        <a href="{{ question.get_absolute_url }}">{{ question.question_text }}</a> by {{question.author}} 
+        (on {{question.date_updated}})
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no questions in the library.</p>
+  {% endif %}       
+{% endblock %}
