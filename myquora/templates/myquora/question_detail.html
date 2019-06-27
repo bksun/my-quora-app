@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="row text-info">
-    <h3>Que: {{ question.question_text }} - {{id}}</h3>
+    <h3>Que: {{ question.question_text }} </h3>
 </div>
   
   <div class="text-success">
@@ -10,7 +10,7 @@
         <div class="col"></div>
         <div class="col-6"></div>
         <div class="col">
-          <strong>Author:</strong> <a href="">{{ question.author }}</a><!-- author detail link not yet defined -->
+          <strong>Author:</strong> <a href="{{ question.author.get_absolute_url }}">{{ question.author }}</a>
           <br>
           <strong>Created On:</strong> {{ question.date_created }}
         </div>
@@ -34,16 +34,15 @@
               <div class="col"></div>
               <div class="col-6"></div>
               <div class="col">
-                  by {{answer.author}} 
+                  by <a href="{{ answer.author.get_absolute_url }}">{{answer.author}} </a> 
                   (on {{answer.date_updated}}) 
               </div>
           </div>
-         
       {% endfor %}
     </ul>
     {% else %}
 
-    <div class="row col-3 text-danger">
+    <div class="text-danger">
         There are no answers for this question.
     </div>
 

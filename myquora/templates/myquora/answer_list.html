@@ -19,7 +19,7 @@
             <div class="col"></div>
             <div class="col-6"></div>
             <div class="col">
-                by {{answer.author}} 
+                by <a href="{{ answer.author.get_absolute_url }}">{{answer.author}} </a> 
                 (on {{answer.date_updated}}) 
             </div>
         </div>

@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<hr></hr>
+<h2>Dynamic content</h2>
+<p>App has the following record counts:</p>
+<ul>
+        <li><strong>Authors:</strong> {{ author.user.username }}</li>
+        <li><strong>Email:</strong> {{ author.email }}</li>
+        <li><strong>Created on:</strong> {{ author.date_created }}</li>
+        <li><strong>Credits:</strong> {{ author.credits }}</li>
+
+</ul>
+{% endblock %}

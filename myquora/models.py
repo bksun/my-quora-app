@@ -89,9 +89,10 @@ class Author(models.Model):
     credits = models.IntegerField(default=0)
 
 
-    # def get_absolute_url(self):
-    #     """Returns the url to access a particular author instance."""
-    #     return reverse('author-detail', args=[str(self.id)])
+    def get_absolute_url(self):
+        """Returns the url to access a particular author instance."""
+        return reverse('author-detail', args=[str(self.id)])
+        #return reverse('author-detail', kwargs={'pk': self.pk}) #another way of doing this
 
     def __str__(self):
         """String for representing the Model object."""

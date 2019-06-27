@@ -6,6 +6,18 @@ from myquora.models import Question, Answer, Comment, Author
 
 from django.views import generic
 
+class AuthorDetailView(generic.DetailView):
+    """Generic class-based detail view for a Answer."""
+    model = Author
+    paginate_by = 3
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     author_id = self.kwargs['pk']
+    #     context['author'] = Author.objects.filter(id=author_id)
+    #     print(author_id)
+    #     print(context['author'])
+    #     return context
 
 class QuestionDetailView(generic.DetailView):
     """Generic class-based detail view for a Answer."""

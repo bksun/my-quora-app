@@ -6,7 +6,8 @@
   <ul>
     {% for question in question_list %}
       <li>
-        <a href="{{ question.get_absolute_url }}">{{ question.question_text }}</a> by {{question.author}} 
+        <a href="{{ question.get_absolute_url }}">{{ question.question_text }}</a> by 
+        <a href="{{ question.author.get_absolute_url }}"> {{question.author}} </a>
         (on {{question.date_updated}})
       </li>
     {% endfor %}
