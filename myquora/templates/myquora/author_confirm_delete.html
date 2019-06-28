@@ -1,0 +1,9 @@
+<form action='/myquora/author/add/' method='post'>
+    {% csrf_token %}
+     {{ form.as_p }}
+
+    <!-- <label for="email">Email</label> -->
+    <!-- <input type="email" name="email" id="email"> -->
+    <br><br>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

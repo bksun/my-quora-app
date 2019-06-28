@@ -1,9 +1,13 @@
 from django.db import models
+from django import forms
+from django.forms import ModelForm
+from datetime import datetime
 from django.urls import reverse # Used to generate URLs by reversing the URL patterns
 import uuid # Required for unique book instances
 from django.contrib import admin
 from django.contrib.auth.models import User
 from datetime import date
+from django.contrib.auth.forms import UserCreationForm
 
 class Comment(models.Model):
 
@@ -61,10 +65,10 @@ class AnswerAdmin(admin.ModelAdmin):
 class Question(models.Model):
 
     """Model representing a question."""
-    author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     question_text = models.TextField(max_length=1000, help_text='Enter your question in brief∂')
-    date_created = models.DateField(null=True, blank=True)
-    date_updated = models.DateField(null=True, blank=True)
+    date_created = models.DateField(null=True, default=datetime.now())
+    date_updated = models.DateField(null=True, default=datetime.now())
 
     def get_absolute_url(self):
         """Returns the url to access a particular question and its answer."""
@@ -83,10 +87,10 @@ class QuestionAdmin(admin.ModelAdmin):
 class Author(models.Model):
 
     """Model representing an author."""
-    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField(max_length=70,blank=True)
-    date_created = models.DateField(null=True, blank=True)
-    credits = models.IntegerField(default=0)
+    date_created = models.DateField(null=True, default=datetime.now())
+    credits =  models.IntegerField(default=0)
 
 
     def get_absolute_url(self):

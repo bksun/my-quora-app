@@ -1,15 +1,104 @@
 from django.shortcuts import render
-
 # Create your views here.
-
 from myquora.models import Question, Answer, Comment, Author
-
 from django.views import generic
+from django.shortcuts import redirect
+
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import CreateView
+from django.http import HttpResponseForbidden
+from django.urls import reverse
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.shortcuts import render
+
+from django.contrib.auth.hashers import PBKDF2PasswordHasher
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class QuestionCreate(LoginRequiredMixin, CreateView):
+    model = Question
+    fields = ['question_text', 'credits']
+
+    def get(self, request, *args, **kwargs):
+        print('Form - Get Request')
+        return render(request, 'myquora/question_form.html')
+
+    def post(self, request, *args, **kwargs):
+        print('Form - Post Request')
+        question_text = request.POST.get('question_text')
+        print(question_text)
+        print(self.request.user)
+
+        print('----')
+        print(Author.objects.filter(user = self.request.user).__dict__)
+        question = Question.objects.create(author = self.request.user, question_text = question_text)
+        print(question.__dict__)
+        print('-------------------------')
+        print("Question created successfully!")
+        response = redirect('/myquora/questions')
+        return response
+        # else:
+        #     return render(request, 'myquora/author_form.html', {'form': form})
+
+
+
+
+class AuthorCreate(CreateView):
+    model = Author
+    fields = ['email', 'credits']
+
+    def get(self, request, *args, **kwargs):
+        print('Form - Get Request')
+        return render(request, 'myquora/author_form.html')
+
+    def post(self, request, *args, **kwargs):
+        print('Form - Post Request')
+        username = request.POST.get('username')
+        print(username)
+        password1  = request.POST.get('password1')
+        password2  = request.POST.get('password2')
+        email = request.POST.get('email')
+
+        if password1 == password2 : 
+            hasher = PBKDF2PasswordHasher()
+            password = hasher.encode(password=password1,
+                                  salt='salt',
+                                  iterations=150000)
+
+            user = User.objects.create(username = username, password = password)
+            author = Author.objects.create(user = user, email = email, )
+            print(author.__dict__)
+            print(user.__dict__)
+            print('-------------------------')
+            print("User created successfully!")
+            response = redirect('/myquora/questions')
+            return response
+        else:
+            return render(request, 'myquora/author_form.html')
+
+
+class AuthorUpdate(UpdateView):
+    model = Author
+    fields = ['email']
+
+
+class AuthorDelete(DeleteView):
+    model = Author
+    fields = ['user']
+    fields = ['email']
+    fields = ['credits']
+    success_url = reverse_lazy('questions')
+
 
 class AuthorDetailView(generic.DetailView):
     """Generic class-based detail view for a Answer."""
     model = Author
     paginate_by = 3
+
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -18,6 +107,7 @@ class AuthorDetailView(generic.DetailView):
     #     print(author_id)
     #     print(context['author'])
     #     return context
+
 
 class QuestionDetailView(generic.DetailView):
     """Generic class-based detail view for a Answer."""
@@ -33,17 +123,15 @@ class QuestionDetailView(generic.DetailView):
         context['answer_list'] = Answer.objects.filter(question=question)
         return context
 
+
 class AnswerListView(generic.ListView):
     model = Answer
     paginate_by = 3
 
-    
-
-
 
 class QuestionListView(generic.ListView):
     model = Question
-    paginate_by = 3
+    paginate_by = 10
 
 
     # def get_queryset(self):
