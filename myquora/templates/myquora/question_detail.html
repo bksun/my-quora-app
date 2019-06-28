@@ -7,7 +7,9 @@
   
   <div class="text-success">
     <div class="row">
-        <div class="col"></div>
+        <div class="col">
+          <a href="{{answer_url}}" class="btn btn-success" role="button">Answer this question</a>
+        </div>
         <div class="col-6"></div>
         <div class="col">
           <strong>Author:</strong> <a href="{{ question.author.get_absolute_url }}">{{ question.author }}</a>
@@ -18,7 +20,6 @@
 
   <div style="margin-left:20px;margin-top:10px; margin-right: 10px;">
     
-
     {% if answer_list %}
     <ul>
         <h4>All Answers</h4>

@@ -66,6 +66,7 @@ class AnswerCreate(LoginRequiredMixin, CreateView):
         response = redirect('/myquora/questions')
         return response
 
+
 class AuthorCreate(CreateView):
     model = Author
     fields = ['email', 'credits']
@@ -140,6 +141,8 @@ class QuestionDetailView(generic.DetailView):
         print(questionId)
         question = Question.objects.get(id=questionId)
         context['answer_list'] = Answer.objects.filter(question=question)
+        context['answer_url'] = '/myquora/question/' + str(questionId) + '/answer'
+        
         return context
 
 
