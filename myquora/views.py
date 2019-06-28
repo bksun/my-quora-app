@@ -35,7 +35,7 @@ class QuestionCreate(LoginRequiredMixin, CreateView):
 
         print('----')
         print(Author.objects.filter(user = self.request.user).__dict__)
-        question = Question.objects.create(author = self.request.user, question_text = question_text)
+        question = Question.objects.create(author = Author.objects.get(user = self.request.user ), question_text = question_text)
         print(question.__dict__)
         print('-------------------------')
         print("Question created successfully!")

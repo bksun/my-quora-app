@@ -9,6 +9,32 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.contrib.auth.forms import UserCreationForm
 
+
+
+
+class Author(models.Model):
+
+    """Model representing an author."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.EmailField(max_length=70,blank=True)
+    date_created = models.DateField(null=True, default=datetime.now())
+    credits =  models.IntegerField(default=0)
+
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular author instance."""
+        return reverse('author-detail', args=[str(self.id)])
+        #return reverse('author-detail', kwargs={'pk': self.pk}) #another way of doing this
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return f'{self.user.username}'
+
+
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('user', 'email', 'date_created', 'credits')
+    
+
 class Comment(models.Model):
 
     """Model representing a question."""
@@ -32,7 +58,7 @@ class CommentAdmin(admin.ModelAdmin):
 class Answer(models.Model):
 
     """Model representing a question."""
-    author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)
     question = models.ForeignKey('Question', on_delete=models.SET_NULL, null=True)
     answer_text = models.TextField(max_length=2000, help_text='Write your answer here...')
     date_created = models.DateField(null=True, blank=True)
@@ -65,13 +91,15 @@ class AnswerAdmin(admin.ModelAdmin):
 class Question(models.Model):
 
     """Model representing a question."""
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)
     question_text = models.TextField(max_length=1000, help_text='Enter your question in brief∂')
     date_created = models.DateField(null=True, default=datetime.now())
     date_updated = models.DateField(null=True, default=datetime.now())
 
     def get_absolute_url(self):
         """Returns the url to access a particular question and its answer."""
+        print('Building absolute URLs...')
+        print([str(self.id)])
         return reverse('question-detail', args=[str(self.id)])
 
     def __str__(self):
@@ -82,27 +110,3 @@ class Question(models.Model):
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('question_text', 'author', 'date_created')
     list_filter = ('date_created', 'author')
-
-
-class Author(models.Model):
-
-    """Model representing an author."""
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    email = models.EmailField(max_length=70,blank=True)
-    date_created = models.DateField(null=True, default=datetime.now())
-    credits =  models.IntegerField(default=0)
-
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular author instance."""
-        return reverse('author-detail', args=[str(self.id)])
-        #return reverse('author-detail', kwargs={'pk': self.pk}) #another way of doing this
-
-    def __str__(self):
-        """String for representing the Model object."""
-        return f'{self.user.username}'
-
-
-class AuthorAdmin(admin.ModelAdmin):
-    list_display = ('user', 'email', 'date_created', 'credits')
-    
