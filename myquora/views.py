@@ -41,11 +41,30 @@ class QuestionCreate(LoginRequiredMixin, CreateView):
         print("Question created successfully!")
         response = redirect('/myquora/questions')
         return response
-        # else:
-        #     return render(request, 'myquora/author_form.html', {'form': form})
 
 
+class AnswerCreate(LoginRequiredMixin, CreateView):
+    model = Answer
+    fields = ['answer_text', 'credits']
 
+    def get(self, request, *args, **kwargs):
+        print('Form - Get Request')
+        return render(request, 'myquora/answer_form.html')
+
+    def post(self, request, *args, **kwargs):
+        print('Form - Post Request')
+        answer_text = request.POST.get('answer_text')
+        print(answer_text)
+        print(self.request.user)
+
+        print('----')
+        print(Author.objects.filter(user = self.request.user).__dict__)
+        answer = Answer.objects.create(author = Author.objects.get(user = self.request.user ), question=Question.objects.get(id = self.kwargs['pk']), answer_text = answer_text)
+        print(answer.__dict__)
+        print('-------------------------')
+        print("Answer created successfully!")
+        response = redirect('/myquora/questions')
+        return response
 
 class AuthorCreate(CreateView):
     model = Author

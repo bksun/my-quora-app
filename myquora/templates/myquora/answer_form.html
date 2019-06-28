@@ -1,0 +1,11 @@
+<form action='/myquora/question/6/answer' method="post">
+
+    {% csrf_token %}
+    <label for="answer_text">answer Title: </label>
+    <br>
+    <br>
+    <textarea name="answer_text" id="answer_text" cols="80" rows="10"></textarea>
+
+    <br><br>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
