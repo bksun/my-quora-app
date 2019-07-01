@@ -1,3 +1,6 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
 <form action='/myquora/question/{{q_id}}/answer/' method="post">
 
     {% csrf_token %}
@@ -9,3 +12,5 @@
     <br><br>
     <button type="submit" class="btn btn-primary">Create</button>
 </form> 
+
+{% endblock %}

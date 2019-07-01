@@ -19,10 +19,11 @@
             <li>User: {{ user.get_username }}</li>
             <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li> 
           {% else %}
-            <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
+          <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>  
+          <li><a href="{% url 'author-add'%}?next={{request.path}}">Register</a></li>   
           {% endif %}
-
-          <br>
+          
+          <hr>
 
           <li><a href="{% url 'index' %}">Home</a></li>
           <li><a href="{% url 'questions' %}">All Questions</a></li>
