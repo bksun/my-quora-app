@@ -19,6 +19,42 @@ from django.shortcuts import render
 from django.contrib.auth.hashers import PBKDF2PasswordHasher
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+
+class CommentCreate(LoginRequiredMixin, CreateView):
+    model = Comment
+    fields = ['author', 'answer', 'comment_text']
+
+    def get(self, request, *args, **kwargs):
+        print('Form - Get Request')
+        a_id = self.kwargs['pk']
+        return render(request, 'myquora/comment_form.html',{"a_id" : a_id })
+
+    def post(self, request, *args, **kwargs):
+        print('Comment Form - Post Request')
+        request_path = request.path
+        print('Path: ', request_path)
+        # print('Path detail: ', request_path.__dict__)
+        comment_text = request.POST.get('comment_text')
+        print(comment_text)
+        print(self.request.user)
+
+        print('-------------------------')
+        params = self.kwargs['pk']
+        print('Id of answer: ', params)
+        author = Author.objects.get(user = self.request.user)
+        
+        print('Author detail: ', author.__dict__)
+        answer = Answer.objects.get(id = params)
+        print('Answer detail: ', answer.__dict__)
+        comment = Comment.objects.create(author = author, answer = answer, comment_text = comment_text)
+        print(comment.__dict__)
+        print('-------------------------')
+        print("Comment created successfully!")
+        response = redirect(request_path)
+        return response
+
+
+
 class UpvoteCreate(LoginRequiredMixin, CreateView):
     model = Answer
     fields = ['answer_text', 'id', 'upvote']
@@ -39,7 +75,6 @@ class UpvoteCreate(LoginRequiredMixin, CreateView):
         print("Answer upvoted successfully!")
         response = redirect('/myquora/questions')
         return response
-
 
 
 class DownvoteCreate(LoginRequiredMixin, CreateView):
@@ -91,11 +126,6 @@ class QuestionCreate(LoginRequiredMixin, CreateView):
 class AnswerCreate(LoginRequiredMixin, CreateView):
     model = Answer
     fields = ['answer_text', 'credits']
-
-    def get(self, request, *args, **kwargs):
-        print('Form - Get Request')
-        q_id = self.kwargs['pk']
-        return render(request, 'myquora/answer_form.html',{"q_id" : q_id })
 
     def post(self, request, *args, **kwargs):
         print('Form - Post Request')

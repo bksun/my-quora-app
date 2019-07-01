@@ -8,7 +8,7 @@
   <div class="text-success">
     <div class="row">
         <div class="col">
-          <form action = "{{answer_url}}" method = GET >
+          <form action = "{{answer_url}}" method = "GET" >
             <input type = "hidden" name = "q_id" value = {{q_id}} /> 
             <input type ="submit"  class="btn btn-success" role="button" value="Answer this question">
           </form> 
@@ -53,6 +53,18 @@
                   <span class="text-dark">{{ answer.downvote }}</span>
                 </form>
               </div>
+
+
+            <!-- comment form -->
+            <div style="margin-left: -50px;" class="col">
+                <form action="/myquora/answer/{{answer.id}}/comment/" method="GET">
+                  {% csrf_token %}
+                  <input type="submit" value="Comment" class="btn-info">
+                  <span class="text-dark">{{ answer.downvote }}</span>
+                  - - <span class="text-dark">{{ answer.id }}</span>
+                </form>
+              </div>
+
 
             <div class="col-6"></div>
               <div class="col">

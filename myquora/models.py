@@ -10,8 +10,6 @@ from datetime import date
 from django.contrib.auth.forms import UserCreationForm
 
 
-
-
 class Author(models.Model):
 
     """Model representing an author."""
@@ -41,8 +39,8 @@ class Comment(models.Model):
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     answer = models.ForeignKey('Answer', on_delete=models.SET_NULL, null=True)
     comment_text = models.TextField(max_length=1000, help_text='Enter your comment...')
-    date_created = models.DateField(null=True, blank=True)
-    date_updated = models.DateField(null=True, blank=True)
+    date_created = models.DateField(default=datetime.now())
+    date_updated = models.DateField(default=datetime.now())
 
     
     def __str__(self):

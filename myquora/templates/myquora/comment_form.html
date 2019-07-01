@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+<form action='/myquora/answer/{{a_id}}/comment/' method="post">
+
+    {% csrf_token %}
+    <label for="comment_text">Write your comment: </label>
+    <br>
+    <br>
+    <textarea name="comment_text" id="comment_text" cols="80" rows="8"></textarea>
+
+    <br><br>
+    <button type="submit" class="btn btn-primary">Comment</button>
+</form>
+{% endblock %}

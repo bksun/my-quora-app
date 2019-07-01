@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<form action='/myquora/question/{{q_id}}/answer/' method="post">
+<form action='/myquora/question/{{q_id}}/answer/' method="POST">
 
     {% csrf_token %}
     <label for="answer_text">Write your answer</label>
@@ -10,7 +10,7 @@
     <textarea name="answer_text" id="answer_text" cols="80" rows="10"></textarea>
 
     <br><br>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary">Answer</button>
 </form> 
 
 {% endblock %}
