@@ -10,7 +10,7 @@ urlpatterns = [
     path('question/<int:pk>/answer/', views.AnswerCreate.as_view(), name='answer-add'),
 
     path('answer/upvote/<int:pk>', views.UpvoteCreate.as_view(), name='answer-upvote'),
-    path('answer/downvote/<int:pk>', views.QuestionDetailView.as_view(), name='answer-downvote'),
+    path('answer/downvote/<int:pk>', views.DownvoteCreate.as_view(), name='answer-downvote'),
 
     path('author/<int:pk>', views.AuthorDetailView.as_view(), name='author-detail'),
     path('author/add/', views.AuthorCreate.as_view(), name='author-add'),

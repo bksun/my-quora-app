@@ -35,15 +35,26 @@
           <br>
           <br>
           <div class="row text-success">
+
+            <!-- upvote form -->
               <div class="col">
                 <form action="{{upvote_url}}{{answer.id}}" method="POST">
-
                   {% csrf_token %}
-                  <input type="submit" value="Upvote">
+                  <input type="submit" value="Upvote" class="btn-info">
                   <span class="text-dark">{{ answer.upvote }}</span>
                 </form>
               </div>
-              <div class="col-6"></div>
+
+            <!-- downvote form -->
+            <div style="margin-left: -70px;" class="col">
+                <form action="{{downvote_url}}{{answer.id}}" method="POST">
+                  {% csrf_token %}
+                  <input type="submit" value="Downvote" class="btn-info">
+                  <span class="text-dark">{{ answer.downvote }}</span>
+                </form>
+              </div>
+
+            <div class="col-6"></div>
               <div class="col">
                   by <a href="{{ answer.author.get_absolute_url }}">{{answer.author}} </a> 
                   (on {{answer.date_updated}}) 

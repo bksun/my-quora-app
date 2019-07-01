@@ -41,6 +41,29 @@ class UpvoteCreate(LoginRequiredMixin, CreateView):
         return response
 
 
+
+class DownvoteCreate(LoginRequiredMixin, CreateView):
+    model = Answer
+    fields = ['answer_text', 'id', 'downvote']
+
+    def post(self, request, *args, **kwargs):
+        print('Downvote - Form - Post Request')
+        print('Username: ', self.request.user)
+        answer_id = self.kwargs['pk']
+        print('Answer id: ', answer_id)
+        print('----')
+
+        print('Author detail: ', Author.objects.filter(user = self.request.user).__dict__)
+        answer = Answer.objects.get(id = answer_id)
+        answer.downvote += + 1
+        answer.save() 
+        print('Answer detail: ' , answer.__dict__)
+        print('-------------------------')
+        print("Answer downvoted successfully!")
+        response = redirect('/myquora/questions')
+        return response
+
+
 class QuestionCreate(LoginRequiredMixin, CreateView):
     model = Question
     fields = ['question_text', 'credits']

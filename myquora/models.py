@@ -110,3 +110,4 @@ class Question(models.Model):
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('question_text', 'author', 'date_created')
     list_filter = ('date_created', 'author')
+
