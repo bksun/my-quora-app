@@ -8,7 +8,10 @@
   <div class="text-success">
     <div class="row">
         <div class="col">
-          <a href="{{answer_url}}" class="btn btn-success" role="button">Answer this question</a>
+          <form action = "{{answer_url}}/" method = GET >
+            <input type = "hidden" name = "qId" value = {{qId}} /> 
+            <input type ="submit"  class="btn btn-success" role="button">Answer this question</a>
+          </form> 
         </div>
         <div class="col-6"></div>
         <div class="col">
@@ -32,7 +35,11 @@
           <br>
           <br>
           <div class="row text-success">
-              <div class="col"></div>
+              <div class="col">
+                <form action="{{upvote_url}}">
+                  <input type="submit" value="Upvote">
+                </form>
+              </div>
               <div class="col-6"></div>
               <div class="col">
                   by <a href="{{ answer.author.get_absolute_url }}">{{answer.author}} </a> 

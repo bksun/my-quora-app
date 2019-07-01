@@ -7,7 +7,10 @@ urlpatterns = [
     path('questions/', views.QuestionListView.as_view(), name='questions'),
     path('answers/', views.AnswerListView.as_view(), name='answers'),
     path('question/<int:pk>', views.QuestionDetailView.as_view(), name='question-detail'),
-    path('question/<int:pk>/answer', views.AnswerCreate.as_view(), name='answer-add'),
+    path('question/<int:pk>/upvote/', views.QuestionDetailView.as_view(), name='answer-upvote'),
+    path('question/<int:pk>/answer/', views.AnswerCreate.as_view(), name='answer-add'),
+    # path('question/<int:pk>/downvote/', views.QuestionDetailView.as_view(), name='question-detail'),
+
     path('author/<int:pk>', views.AuthorDetailView.as_view(), name='author-detail'),
     path('author/add/', views.AuthorCreate.as_view(), name='author-add'),
     path('author/<int:pk>/', views.AuthorUpdate.as_view(), name='author-update'),

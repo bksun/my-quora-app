@@ -49,7 +49,8 @@ class AnswerCreate(LoginRequiredMixin, CreateView):
 
     def get(self, request, *args, **kwargs):
         print('Form - Get Request')
-        return render(request, 'myquora/answer_form.html')
+        qId = request.GET.get('qId')
+        return render(request, 'myquora/answer_form.html',{"pk_ans" : qId })
 
     def post(self, request, *args, **kwargs):
         print('Form - Post Request')
@@ -142,6 +143,9 @@ class QuestionDetailView(generic.DetailView):
         question = Question.objects.get(id=questionId)
         context['answer_list'] = Answer.objects.filter(question=question)
         context['answer_url'] = '/myquora/question/' + str(questionId) + '/answer'
+        context['upvote_url'] = '/myquora/question/' + str(questionId) + '/answer'
+        context['downvote_url'] = '/myquora/question/' + str(questionId) + '/answer'
+        context["qId"] = questionId
         
         return context
 
@@ -149,6 +153,21 @@ class QuestionDetailView(generic.DetailView):
 class AnswerListView(generic.ListView):
     model = Answer
     paginate_by = 3
+
+
+class UpvoteDetailView(generic.DetailView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)
+        questionId = self.kwargs['pk']
+        print(questionId)
+        question = Question.objects.get(id=questionId)
+        context['answer_list'] = Answer.objects.filter(question=question)
+        context['answer_url'] = '/myquora/question/' + str(questionId) + '/answer'
+        context['upvote_url'] = '/myquora/question/' + str(questionId) + '/answer'
+        context['downvote_url'] = '/myquora/question/' + str(questionId) + '/answer'
+        
+        return context
 
 
 class QuestionListView(generic.ListView):
