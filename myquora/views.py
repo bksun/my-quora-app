@@ -19,6 +19,28 @@ from django.shortcuts import render
 from django.contrib.auth.hashers import PBKDF2PasswordHasher
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+class UpvoteCreate(LoginRequiredMixin, CreateView):
+    model = Answer
+    fields = ['answer_text', 'id', 'upvote']
+
+    def post(self, request, *args, **kwargs):
+        print('Upvote - Form - Post Request')
+        print('Username: ', self.request.user)
+        answer_id = self.kwargs['pk']
+        print('Answer id: ', answer_id)
+        print('----')
+
+        print('Author detail: ', Author.objects.filter(user = self.request.user).__dict__)
+        answer = Answer.objects.get(id = answer_id)
+        answer.upvote += + 1
+        answer.save() 
+        print('Answer detail: ' , answer.__dict__)
+        print('-------------------------')
+        print("Answer upvoted successfully!")
+        response = redirect('/myquora/questions')
+        return response
+
+
 class QuestionCreate(LoginRequiredMixin, CreateView):
     model = Question
     fields = ['question_text', 'credits']
@@ -49,8 +71,8 @@ class AnswerCreate(LoginRequiredMixin, CreateView):
 
     def get(self, request, *args, **kwargs):
         print('Form - Get Request')
-        qId = request.GET.get('qId')
-        return render(request, 'myquora/answer_form.html',{"pk_ans" : qId })
+        q_id = self.kwargs['pk']
+        return render(request, 'myquora/answer_form.html',{"q_id" : q_id })
 
     def post(self, request, *args, **kwargs):
         print('Form - Post Request')
@@ -59,6 +81,7 @@ class AnswerCreate(LoginRequiredMixin, CreateView):
         print(self.request.user)
 
         print('----')
+        print('Id of question: ', self.kwargs['pk'])
         print(Author.objects.filter(user = self.request.user).__dict__)
         answer = Answer.objects.create(author = Author.objects.get(user = self.request.user ), question=Question.objects.get(id = self.kwargs['pk']), answer_text = answer_text)
         print(answer.__dict__)
@@ -138,14 +161,13 @@ class QuestionDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         print(context)
-        questionId = self.kwargs['pk']
-        print(questionId)
-        question = Question.objects.get(id=questionId)
+        question_id = self.kwargs['pk']
+        print(question_id)
+        question = Question.objects.get(id=question_id)
         context['answer_list'] = Answer.objects.filter(question=question)
-        context['answer_url'] = '/myquora/question/' + str(questionId) + '/answer'
-        context['upvote_url'] = '/myquora/question/' + str(questionId) + '/answer'
-        context['downvote_url'] = '/myquora/question/' + str(questionId) + '/answer'
-        context["qId"] = questionId
+        context['answer_url'] = '/myquora/question/' + str(question_id) + '/answer/'
+        context['upvote_url'] = '/myquora/answer/upvote/'
+        context['downvote_url'] = '/myquora/answer/downvote/'
         
         return context
 
@@ -155,19 +177,20 @@ class AnswerListView(generic.ListView):
     paginate_by = 3
 
 
-class UpvoteDetailView(generic.DetailView):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        print(context)
-        questionId = self.kwargs['pk']
-        print(questionId)
-        question = Question.objects.get(id=questionId)
-        context['answer_list'] = Answer.objects.filter(question=question)
-        context['answer_url'] = '/myquora/question/' + str(questionId) + '/answer'
-        context['upvote_url'] = '/myquora/question/' + str(questionId) + '/answer'
-        context['downvote_url'] = '/myquora/question/' + str(questionId) + '/answer'
+#  class UpvoteDetailView(generic.DetailView):
+#      pass
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         print(context)
+#         questionId = self.kwargs['pk']
+#         print(questionId)
+#         question = Question.objects.get(id=questionId)
+#         context['answer_list'] = Answer.objects.filter(question=question)
+#         context['answer_url'] = '/myquora/question/' + str(questionId) + '/answer'
+#         context['upvote_url'] = '/myquora/question/' + str(questionId) + '/answer'
+#         context['downvote_url'] = '/myquora/question/' + str(questionId) + '/answer'
         
-        return context
+#         return context
 
 
 class QuestionListView(generic.ListView):

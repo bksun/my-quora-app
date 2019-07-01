@@ -8,8 +8,8 @@
   <div class="text-success">
     <div class="row">
         <div class="col">
-          <form action = "{{answer_url}}/" method = GET >
-            <input type = "hidden" name = "qId" value = {{qId}} /> 
+          <form action = "{{answer_url}}" method = GET >
+            <input type = "hidden" name = "q_id" value = {{q_id}} /> 
             <input type ="submit"  class="btn btn-success" role="button">Answer this question</a>
           </form> 
         </div>
@@ -36,7 +36,9 @@
           <br>
           <div class="row text-success">
               <div class="col">
-                <form action="{{upvote_url}}">
+                <form action="{{upvote_url}}{{answer.id}}" method="POST">
+
+                  {% csrf_token %}
                   <input type="submit" value="Upvote">
                   <span class="text-dark">{{ answer.upvote }}</span>
                 </form>
