@@ -23,9 +23,10 @@ from django.views.generic import UpdateView
 
 class UpdateQuestion(LoginRequiredMixin, UpdateView):
     model = Question
-    fields = ['question_text', 'credits']
-    template_name = 'create_form.html'
-    success_url = '/myquora/questions'
+    fields = ['question_text']
+    success_url = reverse_lazy('questions')
+    template_name = 'myquora/question_update_form.html'
+    
 
 class CommentCreate(LoginRequiredMixin, CreateView):
     model = Comment
