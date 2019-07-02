@@ -60,8 +60,6 @@
                 <form action="/myquora/answer/{{answer.id}}/comment/" method="GET">
                   {% csrf_token %}
                   <input type="submit" value="Comment" class="btn-info">
-                  <span class="text-dark">{{ answer.downvote }}</span>
-                  - - <span class="text-dark">{{ answer.id }}</span>
                 </form>
               </div>
 
@@ -72,6 +70,20 @@
                   (on {{answer.date_updated}}) 
               </div>
           </div>
+
+
+          {% for key, comment in comment_dictionary.items %}
+            {% if key == answer.id %}
+              {% if comment %}
+                {% for comm in comment %}
+                  <div style="margin-left: 25px;" class="row text-dark">
+                     {{ comm }} 
+                  </div>
+                  <br>
+                {% endfor %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
       {% endfor %}
     </ul>
     {% else %}

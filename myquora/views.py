@@ -217,10 +217,42 @@ class QuestionDetailView(generic.DetailView):
         question_id = self.kwargs['pk']
         print(question_id)
         question = Question.objects.get(id=question_id)
-        context['answer_list'] = Answer.objects.filter(question=question)
+        answer_list = Answer.objects.filter(question=question)
+
+        print('Question: ', question)
+        print('Question Type: ', type(question))
+        print('Answer list: ', answer_list)
+        print('Answer list is ready')
+        # answer = Answer.objects.get(answer_text = 'Why US was not able to pressurize India to not buy the S-400 missiles from Russia?')
+        # print('Answer: ', answer.__dict__)
+  
+        print('Finding comments for answer...')
+        comment_dictionary = {}
+
+        for ans in iter(answer_list):
+            print('Answer: ', ans)
+            print('Answer Id: ', ans.id)
+            print('Answer Type: ', type(ans))
+            comment_list = Comment.objects.filter(answer = ans)
+            print('Comment List: ', comment_list)
+            comment_dictionary[ans.id] = comment_list
+            # ans['comments'] = comment_list
+            print('---------------------------------------')
+            
+        
+        print('Comment list is ready')
+
+        print('printing comment dictionary:', comment_dictionary)
+        # keys,values in cars.items()
+        for keys, values in comment_dictionary.items():
+            print(keys, " -> ", values)
+        print('Comments print is over')
+
+        context['answer_list'] = answer_list
         context['answer_url'] = '/myquora/question/' + str(question_id) + '/answer/'
         context['upvote_url'] = '/myquora/answer/upvote/'
         context['downvote_url'] = '/myquora/answer/downvote/'
+        context['comment_dictionary'] = comment_dictionary
         
         return context
 
