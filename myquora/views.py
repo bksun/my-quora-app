@@ -26,7 +26,7 @@ class UpdateQuestion(LoginRequiredMixin, UpdateView):
     fields = ['question_text']
     success_url = reverse_lazy('questions')
     template_name = 'myquora/question_update_form.html'
-    
+
 
 class CommentCreate(LoginRequiredMixin, CreateView):
     model = Comment
@@ -60,6 +60,7 @@ class CommentCreate(LoginRequiredMixin, CreateView):
         print("Comment created successfully!")
         response = redirect(request_path)
         return response
+
 
 class UpvoteCreate(LoginRequiredMixin, CreateView):
     model = Answer
@@ -273,22 +274,6 @@ class QuestionDetailView(generic.DetailView):
 class AnswerListView(generic.ListView):
     model = Answer
     paginate_by = 3
-
-
-#  class UpvoteDetailView(generic.DetailView):
-#      pass
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         print(context)
-#         questionId = self.kwargs['pk']
-#         print(questionId)
-#         question = Question.objects.get(id=questionId)
-#         context['answer_list'] = Answer.objects.filter(question=question)
-#         context['answer_url'] = '/myquora/question/' + str(questionId) + '/answer'
-#         context['upvote_url'] = '/myquora/question/' + str(questionId) + '/answer'
-#         context['downvote_url'] = '/myquora/question/' + str(questionId) + '/answer'
-        
-#         return context
 
 
 class QuestionListView(generic.ListView):
