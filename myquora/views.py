@@ -55,16 +55,16 @@ class CommentCreate(LoginRequiredMixin, CreateView):
         print('-------------------------')
         params = self.kwargs['pk']
         print('Id of answer: ', params)
-        author = Author.objects.get(user = self.request.user)
+        author = Author.objects.get(user=self.request.user)
         
         print('Author detail: ', author.__dict__)
-        answer = Answer.objects.get(id = params)
+        answer = Answer.objects.get(id=params)
         print('Answer detail: ', answer.__dict__)
-        comment = Comment.objects.create(author = author, answer = answer, comment_text = comment_text)
+        comment = Comment.objects.create(author=author, answer=answer, comment_text=comment_text)
         print(comment.__dict__)
         print('-------------------------')
         print("Comment created successfully!")
-        response = redirect(request_path)
+        response = redirect(reverse('question-detail', kwargs={'pk': answer.question.id}))
         return response
 
 
@@ -80,13 +80,13 @@ class UpvoteCreate(LoginRequiredMixin, CreateView):
         print('----')
 
         print('Author detail: ', Author.objects.filter(user=self.request.user).__dict__)
-        answer = Answer.objects.get(id = answer_id)
+        answer = Answer.objects.get(id=answer_id)
         answer.upvote += + 1
         answer.save() 
-        print('Answer detail: ' , answer.__dict__)
+        print('Answer detail: ', answer.__dict__)
         print('-------------------------')
         print("Answer upvoted successfully!")
-        response = redirect(reverse('question-detailπ', kwargs={'pk': answer.question.id}))
+        response = redirect(reverse('question-detail', kwargs={'pk': answer.question.id}))
         return response
 
 
@@ -108,7 +108,7 @@ class DownvoteCreate(LoginRequiredMixin, CreateView):
         print('Answer detail: ' , answer.__dict__)
         print('-------------------------')
         print("Answer downvoted successfully!")
-        response = redirect('/myquora/questions')
+        response = redirect(reverse('question-detail', kwargs={'pk': answer.question.id}))
         return response
 
 

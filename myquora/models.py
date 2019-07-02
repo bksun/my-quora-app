@@ -1,27 +1,26 @@
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
-#Used to generate URLs by reversing the URLpatterns
+# Used to generate URLs by reversing the URLpatterns
 from django.contrib import admin
 from django.contrib.auth.models import User
-from datetime import date
-from django.contrib.auth.forms import UserCreationForm
 
 # django.utils.timezone.now
+
 
 class Author(models.Model):
 
     """Model representing an author."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    email = models.EmailField(max_length=70,blank=True)
+    email = models.EmailField(max_length=70, blank=True)
     date_created = models.DateField(null=True, default=timezone.now())
-    credits =  models.IntegerField(default=0)
-
+    credits = models.IntegerField(default=0)
 
     def get_absolute_url(self):
         """Returns the url to access a particular author instance."""
         return reverse('author-detail', args=[str(self.id)])
-        #return reverse('author-detail', kwargs={'pk': self.pk}) #another way of doing this
+        # return reverse('author-detail', kwargs={'pk': self.pk}) 
+        # another way of doing this
 
     def __str__(self):
         """String for representing the Model object."""
@@ -30,7 +29,7 @@ class Author(models.Model):
 
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ('user', 'email', 'date_created', 'credits')
-    
+
 
 class Comment(models.Model):
 
@@ -41,7 +40,6 @@ class Comment(models.Model):
     date_created = models.DateField(default=timezone.now())
     date_updated = models.DateField(default=timezone.now())
 
-    
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.comment_text[:20]}..'

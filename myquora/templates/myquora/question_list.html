@@ -1,18 +1,20 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>question List</h1>
+  <h1>Question List</h1>
   {% if question_list %}
-  <ul>
+  <ul class="list-group">
     {% for question in question_list %}
-      <li style="padding: 5px; list-style: none;" >
-        <a href="{{ question.get_absolute_url }}">{{ question.question_text }}</a> by 
-        <a href="{{ question.author.get_absolute_url }}"> {{question.author}} </a>
+      <li style="padding: 4px; margin: 3px; list-style: none; text-decoration: none;" class="list-group-item list-group-item-action list-group-item-dark">
+        <a style="text-decoration: none; color: black" href="{{ question.get_absolute_url }}">{{ question.question_text }}</a> 
+        &nbsp; &nbsp; &nbsp;
+        by 
+        <a style="text-decoration: none; color: black;" href="{{ question.author.get_absolute_url }}"> {{question.author}} </a>
         (on {{question.date_updated}})
         
         {% if user.is_authenticated %}
             {% if  user.get_username  ==  question.author.user.username  %}
-                <a style="padding: 3px;" class="btn-success" href="/myquora/question/{{question.id}}/update/">Update Question</a>
+                <a style="padding: 3px; text-decoration: none;" class="btn btn-primary" href="/myquora/question/{{question.id}}/update/">Update Question</a>
             {% endif %}
         {% endif %} 
 

@@ -27,27 +27,23 @@
     <ul>
         <h4>All Answers</h4>
       {% for answer in answer_list %}
-
-            <hr></hr>
-          <div class="row text-dark">
+          <br>
+          <div class="card">
+            <div class="card-body">
+              {% comment %} <h5 class="card-title">Special title treatment</h5> {% endcomment %}
+              <p class="card-text">
+                <div class="row text-dark">
             {{ answer.answer_text }} 
           </div>
           <br>
           <br>
           <div class="row text-success">
 
-            <!-- update the answer -->
-            {% if user.is_authenticated %}
-              {% if  user.get_username  ==  answer.author.user.username  %}
-                  <a style="padding: 3px;" class="btn-success" href="/myquora/answer/{{answer.id}}/update/">Update Answer</a>
-              {% endif %}
-            {% endif %} 
-
             <!-- upvote form -->
               <div class="col">
                 <form action="{{upvote_url}}{{answer.id}}" method="POST">
                   {% csrf_token %}
-                  <input type="submit" value="Upvote" class="btn-info">
+                  <input type="submit" value="Upvote" class="btn btn-primary">
                   <span class="text-dark">{{ answer.upvote }}</span>
                 </form>
               </div>
@@ -56,7 +52,7 @@
             <div style="margin-left: -70px;" class="col">
                 <form action="{{downvote_url}}{{answer.id}}" method="POST">
                   {% csrf_token %}
-                  <input type="submit" value="Downvote" class="btn-info">
+                  <input type="submit" value="Downvote" class="btn btn-primary">
                   <span class="text-dark">{{ answer.downvote }}</span>
                 </form>
               </div>
@@ -66,31 +62,47 @@
             <div style="margin-left: -50px;" class="col">
                 <form action="/myquora/answer/{{answer.id}}/comment/" method="GET">
                   {% csrf_token %}
-                  <input type="submit" value="Comment" class="btn-info">
+                  <input type="submit" value="Comment" class="btn btn-primary">
                 </form>
-              </div>
+            </div>
 
-
-            <div class="col-6"></div>
-              <div class="col">
+            {% comment %} update answer {% endcomment %}
+            <div class="col-4">
+            {% if user.is_authenticated %}
+              {% if  user.get_username  ==  answer.author.user.username  %}
+                  <a href="/myquora/answer/{{answer.id}}/update/" class="btn btn-primary">Update Answer</a>
+              {% endif %}
+            {% endif %} 
+            </div>
+            <div class="col-3">
                   by <a href="{{ answer.author.get_absolute_url }}">{{answer.author}} </a> 
                   (on {{answer.date_updated}}) 
-              </div>
+            </div>
+
+              </p>
+              {% comment %} <a style="padding: 3px;" class="btn-success" href="/myquora/question/{{question.id}}/update/">Update Question</a> {% endcomment %}
+
+            </div>
           </div>
+ 
 
-
+                  </div>
+      <div style="margin-left: 20px;">
+        <br>
+        <ul class="list-group">
           {% for key, comment in comment_dictionary.items %}
             {% if key == answer.id %}
               {% if comment %}
                 {% for comm in comment %}
-                  <div style="margin-left: 25px;" class="row text-dark">
-                     {{ comm }} 
-                  </div>
-                  <br>
+            
+                    <li class="list-group-item disabled">{{ comm }}</li>
+
                 {% endfor %}
               {% endif %}
             {% endif %}
           {% endfor %}
+        <ul>
+        </div>
       {% endfor %}
     </ul>
     {% else %}

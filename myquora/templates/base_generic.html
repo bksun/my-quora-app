@@ -8,26 +8,27 @@
   <!-- Add additional CSS in static file -->
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
 </head>
 <body>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-2">
+      <div style="background: gray; height: 800px;" class="col-sm-2">
       {% block sidebar %}
         <ul class="sidebar-nav">
           {% if user.is_authenticated %}
-            <li>User: {{ user.get_username }}</li>
-            <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li> 
+            <li  style="text-decoration: none; color: white;"  >User: {{ user.get_username }}</li>
+            <li><a  style="text-decoration: none; color: white;"  href="{% url 'logout'%}?next={{request.path}}">Logout</a></li> 
           {% else %}
-          <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>  
-          <li><a href="{% url 'author-add'%}?next={{request.path}}">Register</a></li>   
+          <li><a style="text-decoration: none; color: white;"   href="{% url 'login'%}?next={{request.path}}">Login</a></li>  
+          <li><a style="text-decoration: none; color: white;"  href="{% url 'author-add'%}?next={{request.path}}">Register</a></li>   
           {% endif %}
           
           <hr>
 
-          <li><a href="{% url 'index' %}">Home</a></li>
-          <li><a href="{% url 'questions' %}">All Questions</a></li>
-          <li><a href="{% url 'question-add' %}">Ask Question</a></li>
+          <li><a style="text-decoration: none; color: white;"  href="{% url 'index' %}">Home</a></li>
+          <li><a  style="text-decoration: none; color: white;"  href="{% url 'questions' %}">All Questions</a></li>
+          <li><a style="text-decoration: none; color: white;"   href="{% url 'question-add' %}">Ask Question</a></li>
         </ul>
      {% endblock %}
       </div>
