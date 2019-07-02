@@ -8,7 +8,6 @@
       <li style="padding: 5px; list-style: none;" >
         <a href="{{ question.get_absolute_url }}">{{ question.question_text }}</a> by 
         <a href="{{ question.author.get_absolute_url }}"> {{question.author}} </a>
-        <a href="{{ question.author.get_absolute_url }}"> {{question.id}} </a>
         (on {{question.date_updated}})
         
         {% if user.is_authenticated %}

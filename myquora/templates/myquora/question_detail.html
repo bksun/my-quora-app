@@ -36,6 +36,13 @@
           <br>
           <div class="row text-success">
 
+            <!-- update the answer -->
+            {% if user.is_authenticated %}
+              {% if  user.get_username  ==  answer.author.user.username  %}
+                  <a style="padding: 3px;" class="btn-success" href="/myquora/answer/{{answer.id}}/update/">Update Answer</a>
+              {% endif %}
+            {% endif %} 
+
             <!-- upvote form -->
               <div class="col">
                 <form action="{{upvote_url}}{{answer.id}}" method="POST">

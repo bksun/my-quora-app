@@ -9,7 +9,8 @@ urlpatterns = [
     path('question/<int:pk>', views.QuestionDetailView.as_view(), name='question-detail'),
     path('question/<int:pk>/answer/', views.AnswerCreate.as_view(), name='answer-add'),
 
-    path('question/<int:pk>/update/', views.UpdateQuestion.as_view(), name='question-add'),
+    path('question/<int:pk>/update/', views.UpdateQuestion.as_view(), name='question-update'),
+    path('answer/<int:pk>/update/', views.UpdateAnswer.as_view(), name='answer-update'),
 
     path('answer/<int:pk>/comment/', views.CommentCreate.as_view(), name='comment-add'),
 

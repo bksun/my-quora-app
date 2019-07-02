@@ -4,7 +4,7 @@ from myquora.models import Question, Answer, Comment, Author
 from django.views import generic
 from django.shortcuts import redirect
 
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
@@ -19,7 +19,13 @@ from django.shortcuts import render
 from django.contrib.auth.hashers import PBKDF2PasswordHasher
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from django.views.generic import UpdateView
+
+class UpdateAnswer(LoginRequiredMixin, UpdateView):
+    model = Answer
+    fields = ['answer_text']
+    success_url = reverse_lazy('questions')
+    template_name = 'myquora/answer_update_form.html'
+
 
 class UpdateQuestion(LoginRequiredMixin, UpdateView):
     model = Question
@@ -73,14 +79,14 @@ class UpvoteCreate(LoginRequiredMixin, CreateView):
         print('Answer id: ', answer_id)
         print('----')
 
-        print('Author detail: ', Author.objects.filter(user = self.request.user).__dict__)
+        print('Author detail: ', Author.objects.filter(user=self.request.user).__dict__)
         answer = Answer.objects.get(id = answer_id)
         answer.upvote += + 1
         answer.save() 
         print('Answer detail: ' , answer.__dict__)
         print('-------------------------')
         print("Answer upvoted successfully!")
-        response = redirect('/myquora/questions')
+        response = redirect(reverse('question-detailπ', kwargs={'pk': answer.question.id}))
         return response
 
 
@@ -241,19 +247,18 @@ class QuestionDetailView(generic.DetailView):
         # print('Answer: ', answer.__dict__)
   
         print('Finding comments for answer...')
-        comment_dictionary = {}
+        comment_dictionary = { ans.id: Comment.objects.filter(answer=ans) for ans in answer_list}
 
-        for ans in iter(answer_list):
-            print('Answer: ', ans)
-            print('Answer Id: ', ans.id)
-            print('Answer Type: ', type(ans))
-            comment_list = Comment.objects.filter(answer = ans)
-            print('Comment List: ', comment_list)
-            comment_dictionary[ans.id] = comment_list
-            # ans['comments'] = comment_list
-            print('---------------------------------------')
+        # for ans in iter(answer_list):
+        #     print('Answer: ', ans)
+        #     print('Answer Id: ', ans.id)
+        #     print('Answer Type: ', type(ans))
+        #     comment_list = Comment.objects.filter(answer = ans)
+        #     print('Comment List: ', comment_list)
+        #     comment_dictionary[ans.id] = comment_list
+        #     # ans['comments'] = comment_list
+            # print('---------------------------------------')
             
-        
         print('Comment list is ready')
 
         print('printing comment dictionary:', comment_dictionary)
