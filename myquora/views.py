@@ -19,6 +19,13 @@ from django.shortcuts import render
 from django.contrib.auth.hashers import PBKDF2PasswordHasher
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.views.generic import UpdateView
+
+class UpdateQuestion(LoginRequiredMixin, UpdateView):
+    model = Question
+    fields = ['question_text', 'credits']
+    template_name = 'create_form.html'
+    success_url = '/myquora/questions'
 
 class CommentCreate(LoginRequiredMixin, CreateView):
     model = Comment
@@ -52,8 +59,6 @@ class CommentCreate(LoginRequiredMixin, CreateView):
         print("Comment created successfully!")
         response = redirect(request_path)
         return response
-
-
 
 class UpvoteCreate(LoginRequiredMixin, CreateView):
     model = Answer
@@ -125,7 +130,14 @@ class QuestionCreate(LoginRequiredMixin, CreateView):
 
 class AnswerCreate(LoginRequiredMixin, CreateView):
     model = Answer
-    fields = ['answer_text', 'credits']
+    fields = ['answer_text']
+    
+    def get(self, request, *args, **kwargs):
+        print('Form - Get Request')
+        q_id = self.kwargs['pk']
+        print(q_id)
+        print('request get', request.GET.__dict__)
+        return render(request, 'myquora/answer_form.html',{"q_id" : q_id })
 
     def post(self, request, *args, **kwargs):
         print('Form - Post Request')
