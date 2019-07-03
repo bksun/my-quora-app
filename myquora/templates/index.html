@@ -1,14 +1,20 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>My Quora App</h1>
-  <hr></hr>
-  <h2>Dynamic content</h2>
-  <p>App has the following record counts:</p>
-  <ul>
-    <li><strong>Authors:</strong> {{ num_authors }}</li>
-    <li><strong>Questions:</strong> {{ num_questions }}</li>
-    <li><strong>Answers:</strong> {{ num_answers }}</li>
-    <li><strong>Comments:</strong> {{ num_comments }}</li>
-  </ul>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1>My Quora App</h1>
+        <hr></hr>
+        <h2>Dynamic content</h2>
+        <p>App has the following record counts:</p>
+        <ul>
+          <li><strong>Authors:</strong> {{ num_authors }}</li>
+          <li><strong>Questions:</strong> {{ num_questions }}</li>
+          <li><strong>Answers:</strong> {{ num_answers }}</li>
+          <li><strong>Comments:</strong> {{ num_comments }}</li>
+        </ul>
+     </div>
+    </div>
+
+  
 {% endblock %}
