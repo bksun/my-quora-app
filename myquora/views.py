@@ -33,6 +33,16 @@ class UpdateQuestion(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('questions')
     template_name = 'myquora/question_update_form.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)
+        question_id = self.kwargs['pk']
+        print(question_id)
+        question = Question.objects.get(id=question_id)
+        print('Update form: ', question.question_text)
+        context['question_text'] = question.question_text
+        return context
+
 
 class CommentCreate(LoginRequiredMixin, CreateView):
     model = Comment
@@ -247,7 +257,7 @@ class QuestionDetailView(generic.DetailView):
         # print('Answer: ', answer.__dict__)
   
         print('Finding comments for answer...')
-        comment_dictionary = { ans.id: Comment.objects.filter(answer=ans) for ans in answer_list}
+        comment_dictionary = {ans.id: Comment.objects.filter(answer=ans) for ans in answer_list}
 
         # for ans in iter(answer_list):
         #     print('Answer: ', ans)
