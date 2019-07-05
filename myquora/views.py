@@ -10,20 +10,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
 from django.http import HttpResponseForbidden
 from django.urls import reverse
-
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.shortcuts import render
-
 from django.contrib.auth.hashers import PBKDF2PasswordHasher
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class UpdateAnswer(LoginRequiredMixin, UpdateView):
     model = Answer
     fields = ['answer_text']
-    success_url = reverse_lazy('questions')
+    # success_url = redirect(reverse('question-detail', kwargs={'pk': answer.question.id}))
+
     template_name = 'myquora/answer_update_form.html'
 
     def get_context_data(self, **kwargs):
@@ -32,9 +27,19 @@ class UpdateAnswer(LoginRequiredMixin, UpdateView):
         answer_id = self.kwargs['pk']
         print(answer_id)
         answer = Answer.objects.get(id=answer_id)
+        self.pk = answer.question.id
         print('Update form: ', answer.answer_text)
         context['answer_text'] = answer.answer_text
         return context
+
+    def get_success_url(self, **kwargs):
+        print("sucess url")
+        print(self.request)
+        print(self.object)
+        print(self.object.question.id)
+        return (reverse(
+            'question-detail',
+            kwargs={'pk': self.object.question.id}))
 
 
 class UpdateQuestion(LoginRequiredMixin, UpdateView):
@@ -180,7 +185,7 @@ class AnswerCreate(LoginRequiredMixin, CreateView):
         print(answer.__dict__)
         print('-------------------------')
         print("Answer created successfully!")
-        response = redirect('/myquora/questions')
+        response = redirect(reverse('question-detail', kwargs={'pk': answer.question.id}))
         return response
 
 
