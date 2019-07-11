@@ -4,6 +4,17 @@ from mixer.backend.django import mixer
 import pytest
 
 
+# @pytest.mark.django_db
+# def authenticated_user_setup():
+#     print('*******************Set Up********************')
+#     user = User.objects.create(username='test14', password='Test1pass')
+#     user.save()
+#     author = Author.objects.create(user=user, email='sun@gm.in')
+#     author.save()
+#     return author
+#     print('*******************Tear Down********************')
+
+
 @pytest.mark.django_db
 class TestModels:
     def __init__(self):
