@@ -32,10 +32,7 @@ class UpdateAnswer(LoginRequiredMixin, UpdateView):
         context['answer_text'] = answer.answer_text
         return context
 
-    def get_success_url(self, **kwargs):
-        print("sucess url")
-        print(self.request)
-        print(self.object)
+    def get_success_url(self):
         print(self.object.question.id)
         return (reverse(
             'question-detail',
