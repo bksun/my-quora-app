@@ -2,7 +2,6 @@
 
 {% block content %}
 <form action='/myquora/question/{{q_id}}/answer/' method="POST">
-
     {% csrf_token %}
     <label for="answer_text">Write your answer</label>
     <br>

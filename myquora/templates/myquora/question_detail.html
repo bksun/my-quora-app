@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<div class="row text-info">
+<div style="margin-left: 5px;" class="row text-info">
     <h3>Que: {{ question.question_text }} </h3>
 </div>
   
@@ -84,10 +84,9 @@
 
             </div>
           </div>
+ </div>
  
-
-                  </div>
-      <div style="margin-left: 20px;">
+ <div style="margin-left: 20px;">
         <br>
         <ul class="list-group">
           {% for key, comment in comment_dictionary.items %}

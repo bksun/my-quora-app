@@ -42,7 +42,7 @@ class Comment(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.comment_text[:20]}..'
+        return f'{self.comment_text}'
 
 
 class CommentAdmin(admin.ModelAdmin):
@@ -61,14 +61,15 @@ class Answer(models.Model):
     upvote = models.IntegerField(default=0)
     downvote = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
-    
+
     def __str__(self):
         """String for representing the Model object."""
         return f'Que: {self.question.question_text[:50]}.. Ans: {self.answer_text[:50]}..'
 
 
 class AnswerAdmin(admin.ModelAdmin):
-    list_display = ('question', 'answer_text', 'author', 'date_created', 'upvote', 'downvote', 'views')
+    list_display = (
+        'question', 'answer_text', 'author', 'date_created', 'upvote', 'downvote', 'views')
     list_filter = ('date_created', 'author', 'upvote', 'downvote', 'views')
     fieldsets = (
         (None, {
@@ -78,7 +79,7 @@ class AnswerAdmin(admin.ModelAdmin):
             'fields': ('date_created', 'date_updated')
         }),
         ('Actions', {
-            'fields': ('upvote', 'downvote','views')
+            'fields': ('upvote', 'downvote', 'views')
         }),
     )
 
@@ -105,4 +106,3 @@ class Question(models.Model):
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('question_text', 'author', 'date_created')
     list_filter = ('date_created', 'author')
-
