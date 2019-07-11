@@ -31,6 +31,7 @@ class TestModels:
 
 class Testing:
     test = TestModels()
+    # test.create_author_object()
 
     @pytest.mark.django_db
     def test_create_question(self, authenticated_user):
@@ -41,4 +42,4 @@ class Testing:
         que = Question.objects.create(author=authenticated_user, question_text='Who is DDM?')
         print(que)
         print(type(que))
-        assert que.isin
+        assert 'Who is DDM' in que
