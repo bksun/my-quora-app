@@ -49,7 +49,7 @@
               </div>
 
             <!-- downvote form -->
-            <div style="margin-left: -70px;" class="col">
+            <div class="col">
                 <form action="{{downvote_url}}{{answer.id}}" method="POST">
                   {% csrf_token %}
                   <input type="submit" value="Downvote" class="btn btn-primary">
@@ -59,7 +59,7 @@
 
 
             <!-- comment form -->
-            <div style="margin-left: -50px;" class="col">
+            <div class="col">
                 <form action="/myquora/answer/{{answer.id}}/comment/" method="GET">
                   {% csrf_token %}
                   <input type="submit" value="Comment" class="btn btn-primary">

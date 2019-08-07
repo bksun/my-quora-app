@@ -17,17 +17,13 @@ class UpdateAnswer(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(context)
         answer_id = self.kwargs['pk']
-        print(answer_id)
         answer = Answer.objects.get(id=answer_id)
         self.pk = answer.question.id
-        print('Update form: ', answer.answer_text)
         context['answer_text'] = answer.answer_text
         return context
 
     def get_success_url(self):
-        print(self.object.question.id)
         return (reverse('question-detail', kwargs={'pk': self.object.question.id}))
 
 
@@ -39,11 +35,8 @@ class UpdateQuestion(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(context)
         question_id = self.kwargs['pk']
-        print(question_id)
         question = Question.objects.get(id=question_id)
-        print('Update form: ', question.question_text)
         context['question_text'] = question.question_text
         return context
 
@@ -87,20 +80,10 @@ class DownvoteCreate(LoginRequiredMixin, CreateView):
     fields = ['answer_text', 'id', 'downvote']
 
     def post(self, request, *args, **kwargs):
-        print('Downvote - Form - Post Request')
-        print('Username: ', self.request.user)
         answer_id = self.kwargs['pk']
-        print('Answer id: ', answer_id)
-        print('----')
-
-        # print('Author detail: ', Author.objects.filter(user =
-        #  self.request.user).__dict__)
         answer = Answer.objects.get(id=answer_id)
         answer.downvote += + 1
         answer.save()
-        print('Answer detail: ', answer.__dict__)
-        print('-------------------------')
-        print("Answer downvoted successfully!")
         response = redirect(
             reverse('question-detail', kwargs={'pk': answer.question.id}))
         return response
@@ -111,21 +94,13 @@ class QuestionCreate(LoginRequiredMixin, CreateView):
     fields = ['question_text', 'credits']
 
     def get(self, request, *args, **kwargs):
-        print('Form - Get Request')
         return render(request, 'myquora/question_form.html')
 
     def post(self, request, *args, **kwargs):
-        print('Form - Post Request')
         question_text = request.POST.get('question_text')
-        print(question_text)
-        print(self.request.user)
-
-        print('----')
-        print(Author.objects.filter(user = self.request.user).__dict__)
-        question = Question.objects.create(author = Author.objects.get(user = self.request.user ), question_text = question_text)
-        print(question.__dict__)
-        print('-------------------------')
-        print("Question created successfully!")
+        question = Question.objects.create(
+            author=Author.objects.get(user=self.request.user),
+            question_text=question_text)
         response = redirect('/myquora/questions')
         return response
 
@@ -135,25 +110,12 @@ class AnswerCreate(LoginRequiredMixin, CreateView):
     fields = ['answer_text']
     
     def get(self, request, *args, **kwargs):
-        print('Form - Get Request')
         q_id = self.kwargs['pk']
-        print(q_id)
-        print('request get', request.GET.__dict__)
         return render(request, 'myquora/answer_form.html',{"q_id" : q_id })
 
     def post(self, request, *args, **kwargs):
-        print('Form - Post Request')
         answer_text = request.POST.get('answer_text')
-        print(answer_text)
-        print(self.request.user)
-
-        print('----')
-        print('Id of question: ', self.kwargs['pk'])
-        print(Author.objects.filter(user = self.request.user).__dict__)
         answer = Answer.objects.create(author = Author.objects.get(user = self.request.user ), question=Question.objects.get(id = self.kwargs['pk']), answer_text = answer_text)
-        print(answer.__dict__)
-        print('-------------------------')
-        print("Answer created successfully!")
         response = redirect(reverse('question-detail', kwargs={'pk': answer.question.id}))
         return response
 
@@ -163,29 +125,21 @@ class AuthorCreate(CreateView):
     fields = ['email', 'credits']
 
     def get(self, request, *args, **kwargs):
-        print('Form - Get Request')
         return render(request, 'myquora/author_form.html')
 
     def post(self, request, *args, **kwargs):
-        print('Form - Post Request')
         username = request.POST.get('username')
-        print(username)
-        password1  = request.POST.get('password1')
-        password2  = request.POST.get('password2')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
         email = request.POST.get('email')
 
-        if password1 == password2 : 
+        if password1 == password2:
             hasher = PBKDF2PasswordHasher()
-            password = hasher.encode(password=password1,
-                                  salt='salt',
-                                  iterations=150000)
+            password = hasher.encode(
+                password=password1, salt='salt', iterations=150000)
 
-            user = User.objects.create(username = username, password = password)
-            author = Author.objects.create(user = user, email = email, )
-            print(author.__dict__)
-            print(user.__dict__)
-            print('-------------------------')
-            print("User created successfully!")
+            user = User.objects.create(username=username, password=password)
+            author = Author.objects.create(user=user, email=email, )
             response = redirect('/myquora/questions')
             return response
         else:
@@ -206,22 +160,22 @@ class AuthorDelete(DeleteView):
 
 
 class AuthorDetailView(generic.DetailView):
-    """Generic class-based detail view for a Answer."""
+    """Generic class-based detail view for an Author."""
     model = Author
-    paginate_by = 3
 
 
 class QuestionDetailView(generic.DetailView):
-    """Generic class-based detail view for a Answer."""
+    """Generic class-based detail view for a Question."""
     model = Question
-    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         question_id = self.kwargs['pk']
         question = Question.objects.get(id=question_id)
         answer_list = Answer.objects.filter(question=question)
-        comment_dictionary = {ans.id: Comment.objects.filter(answer=ans) for ans in answer_list}
+        comment_dictionary = {
+                ans.id: Comment.objects.filter(answer=ans) for ans in answer_list
+            }
         context['answer_list'] = answer_list
         context['answer_url'] = '/myquora/question/'+str(question_id)+'/answer/'
         context['upvote_url'] = '/myquora/answer/upvote/'

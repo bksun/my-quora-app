@@ -5,8 +5,6 @@ from django.urls import reverse
 from django.contrib import admin
 from django.contrib.auth.models import User
 
-# django.utils.timezone.now
-
 
 class Author(models.Model):
 
@@ -88,14 +86,12 @@ class Question(models.Model):
 
     """Model representing a question."""
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)
-    question_text = models.TextField(max_length=1000, help_text='Enter your question in brief∂')
+    question_text = models.TextField(max_length=1000, help_text='Enter your question in brief')
     date_created = models.DateField(null=True, default=timezone.now())
     date_updated = models.DateField(null=True, default=timezone.now())
 
     def get_absolute_url(self):
         """Returns the url to access a particular question and its answer."""
-        print('Building absolute URLs...')
-        print([str(self.id)])
         return reverse('question-detail', args=[str(self.id)])
 
     def __str__(self):
