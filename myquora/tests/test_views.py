@@ -2,24 +2,78 @@ from django import urls
 import pytest
 import pprint
 from django.contrib.sessions.models import Session
+from myquora.models import Question, Author
 
 
 @pytest.mark.django_db
-def test_redirect_to_memes_when_logged_in(authenticated_user, client):
-    """Verify we redirect to the memes page when a user is logged in"""
-    url = urls.reverse('answer-update', kwargs={'pk': 2})
-    resp = client.get(url)
-    pprint.pprint('Test-running...')
-    assert resp.status_code == 302
-    # assert resp.url == urls.reverse('answer-update', kwargs={'pk': 2})
+def test_question_update_success(authenticated_user, create_a_question):
+    """creating a question"""
+    client, author = authenticated_user
+    question = create_a_question
+    url = urls.reverse('question-update', kwargs={'pk': question.id})
+    updated_question = {'question_text': "Newdfdf"}
+    response = client.post(url, updated_question, follow=True)
+    assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_redirect_to_marketing_when_logged_out(client):
-    """Verify we redirect to the marketing page when a user is not logged in"""
-    url = urls.reverse('answer-update', kwargs={'pk': 2})
+def test_redirect_when_logged_out_from_unsecure_links_like_home_page(
+  authenticated_user):
+    """
+      Verify we don't redirect to the login page when a user is logged 
+      out from unsecure links like home page
+    """
+    client, author = authenticated_user
+    url = urls.reverse('index')
+    client.logout()
     resp = client.get(url)
-    print('*************************************')
-    # pprint.pprint(resp.__dict__, indent=5)
+    assert b'Authors' in resp.content
+    assert b'Answers' in resp.content
+    assert b'Questions' in resp.content
+    assert b'Comments' in resp.content
+    assert resp.status_code == 200
+
+
+@pytest.mark.django_db
+def test_redirect_to_login_when_logged_out_from_update_question(
+  authenticated_user, create_a_question):
+    """Verify we redirect to the login page when a user is logged out"""
+    client, author = authenticated_user
+    question = create_a_question
+    url = urls.reverse('question-update', kwargs={'pk': question.id})
+    client.logout()
+    resp = client.get(url)
+    assert 'login' in resp.url
+    assert 'next' in resp.url
     assert resp.status_code == 302
-    # assert b'answer List' in resp.content
+
+
+
+@pytest.mark.django_db
+def test_redirect_to_login_when_update_question(create_a_question, client, django_user_model):
+    """Verify we redirect to the login page when a user
+       tries to update a new question
+     """
+    question = create_a_question
+    url = urls.reverse('question-update', kwargs={'pk': question.id})
+    resp = client.get(url)
+    assert resp.status_code == 302
+
+
+@pytest.mark.django_db
+def test_redirect_to_login_when_add_question(client, django_user_model):
+    """Verify we redirect to the login page when a user
+       tries to add a new question
+     """
+    url = urls.reverse('question-add')
+    resp = client.get(url)
+    assert resp.status_code == 302
+
+
+@pytest.mark.django_db
+def test_redirect_to_login(create_a_question, client, django_user_model):
+    question = create_a_question
+    url = urls.reverse('question-detail', kwargs={'pk': question.id})
+    response = client.get(url, follow=True)
+    assert b'myquora/author/add/?next=/myquora/question/1' in response.content
+    assert response.context['question'].question_text == question.question_text
