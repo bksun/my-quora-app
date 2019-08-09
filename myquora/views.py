@@ -108,7 +108,7 @@ class QuestionCreate(LoginRequiredMixin, CreateView):
 class AnswerCreate(LoginRequiredMixin, CreateView):
     model = Answer
     fields = ['answer_text']
-    
+
     def get(self, request, *args, **kwargs):
         q_id = self.kwargs['pk']
         return render(request, 'myquora/answer_form.html',{"q_id" : q_id })
@@ -139,8 +139,8 @@ class AuthorCreate(CreateView):
                 password=password1, salt='salt', iterations=150000)
 
             user = User.objects.create(username=username, password=password)
-            author = Author.objects.create(user=user, email=email, )
-            response = redirect('/myquora/questions')
+            Author.objects.create(user=user, email=email, )
+            response = redirect('/accounts/login/')
             return response
         else:
             return render(request, 'myquora/author_form.html')
