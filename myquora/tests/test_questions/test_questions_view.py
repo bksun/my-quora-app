@@ -39,6 +39,8 @@ def test_redirect_to_login_when_update_question(create_a_question, client, djang
      """
     question = create_a_question
     url = urls.reverse('question-update', kwargs={'pk': question.id})
+    client.logout()
+    # since question is by autheenticated author
     resp = client.get(url)
     assert '/accounts/login/?next=/myquora/question/{0}/update/'.format(str(question.id)) in resp.url
     assert resp.status_code == 302
