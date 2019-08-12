@@ -1,0 +1,94 @@
+ <!DOCTYPE html>\n<html lang="en">\n<head>\n  <title>Local Library</title>\n 
+  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-wi
+ dth, initial-scale=1">\n  <link rel="stylesheet" href="https://stackpath.
+ bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MC
+ w98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin=
+ "anonymous">\n  <!-- Add additional CSS in static file -->\n  \n  <link rel
+ ="stylesheet" href="/static/css/styles.css">\n\n</head>\n<body>\n  <div clas
+ s="container-fluid">\n    <div class="row">\n      <div style="background:
+  gray; height: 800px;" class="col-sm-2">\n      \n        <ul class="side
+ ar-nav">\n          \n            <li  style="text-decoration: none; color
+ : white;"  >User: test</li>\n            <li><a  style="text-decoration: 
+ none; color: white;"  href="/accounts/logout/?next=/myquora/question/1">Logo
+ ut</a></li> \n          \n\n          <hr>\n\n          <li><a style="tex
+ t-decoration: none; color: white;"  href="/myquora/">Home</a></li>\n     
+      <li><a  style="text-decoration: none; color: white;"  href="/myquora/qu
+ estions/">All Questions</a></li>\n          <li><a style="text-decoration
+ : none; color: white;"   href="/myquora/question/add/">Ask Question</a></li>
+ \n        </ul>\n     \n      </div>\n\n    <br>\n    <br>\n    <br>\n\n 
+    <div class="col-sm-10 ">\n      \n<div style="margin-left: 5px;" class=
+ "row text-info">\n    <h3>Que: some question </h3>\n</div>\n  \n  <div class
+ ="text-success">\n    <div class="row">\n        <div class="col">\n       
+    <form action = "/myquora/question/1/answer/" method = "GET" >\n       
+      <input type = "hidden" name = "q_id" value =  /> \n            <inpu
+ t type ="submit"  class="btn btn-success" role="button" value="Answer this q
+ uestion">\n          </form> \n        </div>\n        <div class="col-5"><
+ /div>\n        <div class="col">\n          <strong>Author:</strong> <a hr
+ ef="/myquora/author/1">test</a>\n          <br>\n          <strong>Created
+  On:</strong> Aug. 12, 2019\n        </div>\n    </div>\n\n  <div style="mar
+ gin-left:20px;margin-top:10px; margin-right: 10px;">\n    \n    \n    <ul>\n
+         <h4>All Answers</h4>\n      \n          <br>\n          <div class=
+ "card">\n            <div class="card-body">\n              \n             
+  <p class="card-text">\n                <div class="row text-dark">\n     
+        some answer \n          </div>\n          <br>\n          <br>\n     
+      <div class="row text-success">\n\n            <!-- upvote form -->\n  
+             <div class="col">\n                <form action="/myquora/ans
+ wer/upvote/1" method="POST">\n                  <input type="hidden" name
+ ="csrfmiddlewaretoken" value="s61T8M0HQCLzzWK92CsiIvjfXQWz4HZWrNjj0kxjXLSy89
+ XCXHDdfgK6oDSvnQDn">\n                  <input type="submit" value="Upvot
+ e" class="btn btn-primary">\n                  <span class="text-dark">0<
+ /span>\n                </form>\n              </div>\n\n            <!-- do
+ wnvote form -->\n            <div class="col">\n                <form acti
+ on="/myquora/answer/downvote/1" method="POST">\n                  <input 
+ type="hidden" name="csrfmiddlewaretoken" value="s61T8M0HQCLzzWK92CsiIvjfXQWz
+ 4HZWrNjj0kxjXLSy89XCXHDdfgK6oDSvnQDn">\n                  <input type="su
+ bmit" value="Downvote" class="btn btn-primary">\n                  <span 
+ class="text-dark">0</span>\n                </form>\n              </div>\n
+ \n\n            <!-- comment form -->\n            <div class="col">\n      
+           <form action="/myquora/answer/1/comment/" method="GET">\n      
+             <input type="hidden" name="csrfmiddlewaretoken" value="s61T8M0HQ
+ CLzzWK92CsiIvjfXQWz4HZWrNjj0kxjXLSy89XCXHDdfgK6oDSvnQDn">\n              
+     <input type="submit" value="Comment" class="btn btn-primary">\n      
+           </form>\n            </div>\n\n            \n            <div clas
+ s="col-4">\n            \n              \n                  <a href="/myquo
+ ra/answer/1/update/" class="btn btn-primary">Update Answer</a>\n         
+      \n             \n            </div>\n            <div class="col-3">\n 
+                  by <a href="/myquora/author/1">test </a> \n             
+      (on Aug. 12, 2019) \n            </div>\n\n              </p>\n        
+       \n\n            </div>\n          </div>\n </div>\n \n <div style="m
+ argin-left: 20px;">\n        <br>\n        <ul class="list-group">\n       
+    \n            \n              \n            \n          \n            
+ \n          \n        <ul>\n        </div>\n      \n          <br>\n      
+     <div class="card">\n            <div class="card-body">\n             
+  \n              <p class="card-text">\n                <div class="row te
+ xt-dark">\n            new answer \n          </div>\n          <br>\n      
+     <br>\n          <div class="row text-success">\n\n            <!-- upvo
+ te form -->\n              <div class="col">\n                <form action
+ ="/myquora/answer/upvote/2" method="POST">\n                  <input type
+ ="hidden" name="csrfmiddlewaretoken" value="s61T8M0HQCLzzWK92CsiIvjfXQWz4HZW
+ rNjj0kxjXLSy89XCXHDdfgK6oDSvnQDn">\n                  <input type="submit
+ " value="Upvote" class="btn btn-primary">\n                  <span class=
+ "text-dark">0</span>\n                </form>\n              </div>\n\n     
+        <!-- downvote form -->\n            <div class="col">\n            
+     <form action="/myquora/answer/downvote/2" method="POST">\n           
+        <input type="hidden" name="csrfmiddlewaretoken" value="s61T8M0HQCLzzW
+ K92CsiIvjfXQWz4HZWrNjj0kxjXLSy89XCXHDdfgK6oDSvnQDn">\n                  <
+ input type="submit" value="Downvote" class="btn btn-primary">\n          
+         <span class="text-dark">0</span>\n                </form>\n       
+        </div>\n\n\n            <!-- comment form -->\n            <div class
+ ="col">\n                <form action="/myquora/answer/2/comment/" method
+ ="GET">\n                  <input type="hidden" name="csrfmiddlewaretoken
+ " value="s61T8M0HQCLzzWK92CsiIvjfXQWz4HZWrNjj0kxjXLSy89XCXHDdfgK6oDSvnQD
+ n">\n                  <input type="submit" value="Comment" class="btn bt
+ n-primary">\n                </form>\n            </div>\n\n            
+ \n            <div class="col-4">\n            \n              \n           
+        <a href="/myquora/answer/2/update/" class="btn btn-primary">Update An
+ swer</a>\n              \n             \n            </div>\n            <di
+ v class="col-3">\n                  by <a href="/myquora/author/1">test <
+ /a> \n                  (on Aug. 12, 2019) \n            </div>\n\n         
+      </p>\n              \n\n            </div>\n          </div>\n </div
+ >\n \n <div style="margin-left: 20px;">\n        <br>\n        <ul class="li
+ st-group">\n          \n            \n          \n            \n         
+      \n            \n          \n        <ul>\n        </div>\n      \n   
+  </ul>\n      \n\n  </div>\n\n\n      \n      \n    \n    </div>\n\n  </div
+ >\n</body>\n</html>)
