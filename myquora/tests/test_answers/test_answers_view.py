@@ -117,9 +117,23 @@ def test_downvote_answer(create_an_answer, client):
     answer = create_an_answer
     url = urls.reverse('answer-downvote', kwargs={'pk': answer.id})
     resp = client.post(url, follow=True)
-    upvote1 = list(filter(lambda ans: (ans == answer), resp.context['answer_list']))[0].downvote
+    downvote1 = list(filter(lambda ans: (ans == answer), resp.context['answer_list']))[0].downvote
     resp = client.post(url, follow=True)
     assert b'Answer this question' in resp.content
-    upvote2 = list(filter(lambda ans: (ans == answer), resp.context['answer_list']))[0].downvote
-    assert upvote2 > upvote1
+    downvote2 = list(filter(lambda ans: (ans == answer), resp.context['answer_list']))[0].downvote
+    assert downvote2 > downvote1
     assert resp.status_code == 200
+
+
+@pytest.mark.django_db
+def test_comment(create_an_answer, client):
+    answer = create_an_answer
+    url = urls.reverse('comment-add', kwargs={'pk': answer.id})
+    comment = {'comment_text': 'hgyc'}
+    resp = client.post(url, comment, follow=True)
+    resp = client.post(url, comment, follow=True)
+    comment = comment['comment_text']
+    assert resp.status_code == 200
+    assert bytes(comment, 'utf-8') in resp.content
+    assert b'Answer this question' in resp.content
+    assert comment in resp.context['comment_dictionary'][answer.id].last().comment_text
