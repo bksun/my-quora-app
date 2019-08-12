@@ -99,10 +99,27 @@ def test_add_answer_success(create_a_question, create_an_answer, client):
     assert resp.status_code == 200
 
 
-# @pytest.mark.django_db
-# def test_answer_detail_login_not_required(create_a_answer, client):
-#     answer = create_a_answer
-#     url = urls.reverse('answer-detail', kwargs={'pk': answer.id})
-#     response = client.get(url)
-#     assert b'Answer this answer' in response.content
-#     assert response.context['answer'].answer_text == answer.answer_text
+@pytest.mark.django_db
+def test_upvote_answer(create_an_answer, client):
+    answer = create_an_answer
+    url = urls.reverse('answer-upvote', kwargs={'pk': answer.id})
+    resp = client.post(url, follow=True)
+    upvote1 = list(filter(lambda ans: (ans == answer), resp.context['answer_list']))[0].upvote
+    resp = client.post(url, follow=True)
+    assert b'Answer this question' in resp.content
+    upvote2 = list(filter(lambda ans: (ans == answer), resp.context['answer_list']))[0].upvote
+    assert upvote2 > upvote1
+    assert resp.status_code == 200
+
+
+@pytest.mark.django_db
+def test_downvote_answer(create_an_answer, client):
+    answer = create_an_answer
+    url = urls.reverse('answer-downvote', kwargs={'pk': answer.id})
+    resp = client.post(url, follow=True)
+    upvote1 = list(filter(lambda ans: (ans == answer), resp.context['answer_list']))[0].downvote
+    resp = client.post(url, follow=True)
+    assert b'Answer this question' in resp.content
+    upvote2 = list(filter(lambda ans: (ans == answer), resp.context['answer_list']))[0].downvote
+    assert upvote2 > upvote1
+    assert resp.status_code == 200
