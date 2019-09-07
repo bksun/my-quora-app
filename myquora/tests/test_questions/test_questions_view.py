@@ -1,7 +1,5 @@
-from django import urls
 import pytest
-import pprint
-from myquora.models import Question, Author
+from django import urls
 
 
 @pytest.mark.django_db

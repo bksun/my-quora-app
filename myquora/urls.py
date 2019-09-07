@@ -2,7 +2,6 @@ from django.urls import path
 
 from . import views
 
-
 urlpatterns = [
     path('', views.index, name='index'),
     path('question/add/', views.QuestionCreate.as_view(), name='question-add'),
@@ -17,6 +16,5 @@ urlpatterns = [
     path('answer/downvote/<int:pk>', views.DownvoteCreate.as_view(), name='answer-downvote'),
     path('author/<int:pk>', views.AuthorDetailView.as_view(), name='author-detail'),
     path('author/add/', views.AuthorCreate.as_view(), name='author-add'),
-    path('author/<int:pk>/', views.AuthorUpdate.as_view(), name='author-update'),
-    # path('author/<int:pk>/delete/', views.AuthorDelete.as_view(), name='author-delete'),
+    path('author/<int:pk>/', views.AuthorUpdate.as_view(), name='author-update')
 ]

@@ -1,6 +1,7 @@
-from django import urls
 import pytest
-from myquora.models import Question, Author
+from django import urls
+
+from myquora.models import Author, Question
 
 
 @pytest.mark.django_db

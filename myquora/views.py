@@ -1,13 +1,12 @@
-from django.shortcuts import render
-from django.views import generic
-from django.shortcuts import redirect
-from django.urls import reverse_lazy, reverse
 from django.contrib.auth.hashers import PBKDF2PasswordHasher
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-
+from django.shortcuts import redirect, render
+from django.urls import reverse, reverse_lazy
+from django.views import generic
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from myquora.models import Question, Answer, Comment, Author
+
+from myquora.models import Answer, Author, Comment, Question
 
 
 class UpdateAnswer(LoginRequiredMixin, UpdateView):
@@ -97,10 +96,6 @@ class QuestionCreate(LoginRequiredMixin, CreateView):
         return render(request, 'myquora/question_form.html')
 
     def post(self, request, *args, **kwargs):
-        question_text = request.POST.get('question_text')
-        question = Question.objects.create(
-            author=Author.objects.get(user=self.request.user),
-            question_text=question_text)
         response = redirect('/myquora/questions')
         return response
 
@@ -111,11 +106,13 @@ class AnswerCreate(LoginRequiredMixin, CreateView):
 
     def get(self, request, *args, **kwargs):
         q_id = self.kwargs['pk']
-        return render(request, 'myquora/answer_form.html',{"q_id" : q_id })
+        return render(request, 'myquora/answer_form.html', {"q_id": q_id})
 
     def post(self, request, *args, **kwargs):
         answer_text = request.POST.get('answer_text')
-        answer = Answer.objects.create(author = Author.objects.get(user = self.request.user ), question=Question.objects.get(id = self.kwargs['pk']), answer_text = answer_text)
+        answer = Answer.objects.create(author=Author.objects.get(
+            user=self.request.user), question=Question.objects.get(
+                id=self.kwargs['pk']), answer_text=answer_text)
         response = redirect(reverse('question-detail', kwargs={'pk': answer.question.id}))
         return response
 
