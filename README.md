@@ -8,40 +8,39 @@ A Quora like basic web-app using DJango 2.2
 * User can **upvote and downvote**
 * User can **signup, login & logout**
 
-<details><summary><b>Screen shots</b></summary>
-<p align="center">
-  <img src="./img/question_lists_unauth.png" alt="Question Lists Unauth" >
-</p>
+##Screen shots
+###
+<details><summary><b>Question lists</b></summary>
+  <p align="center">
+    <img src="myquora/img/question_lists_unauth.png" alt="Question Lists Unauth" >
+  </p>
 
-<p align="center">
-  <img src="./img/question_lists_auth.png" alt="Question Lists Unauth" >
-</p>
+  <p align="center">
+    <img src="myquora/img/question_lists_auth.png" alt="Question Lists auth" >
+  </p>
 
-<p align="center">
-  <img src="./img/login.png" alt="Question Lists Unauth" >
-</p>
+<details><summary><b>Login</b></summary>
+  <p align="center">
+    <img src="myquora/img/login.png" alt="Login" >
+  </p>
 
-<p align="center">
-  <img src="./img/ask.png" alt="Question Lists Unauth" >
-</p>
+<details><summary><b>Ask Question</b></summary>
+  <p align="center">
+    <img src="myquora/img/ask.png" alt="Ask" >
+  </p>
 
-<p align="center">
-  <img src="./img/answer.png" alt="Question Lists Unauth" >
-</p>
+<details><summary><b>Answer Question</b></summary>
+  <p align="center">
+    <img src="myquora/img/answer.png" alt="Answer" >
+  </p>
 
-<p align="center">
-  <img src="./img/question_details.png" alt="Question Lists Unauth" >
-</p>
-
-<p align="center">
-  <a href="https://evilmartians.com/?utm_source=size-limit">
-    <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
-         alt="Sponsored by Evil Martians" width="236" height="54">
-  </a>
-</p>
+<details><summary><b>Question details</b></summary>
+  <p align="center">
+    <img src="myquora/img/question_details.png" alt="Question details" >
+  </p>
 
 
-#### Setup
+## Setup
 
 Clone the project
 
@@ -81,7 +80,7 @@ Finally run the server using the `runserver` command.
 python manage.py runserver
 ```
 
-#### Testing
+## Testing
 
 Linter test using Flake8
 
