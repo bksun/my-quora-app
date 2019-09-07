@@ -1,15 +1,14 @@
 # my-quora-app
 A Quora like basic web-app using DJango 2.2
 
-# Features
+## Features
 * User can **ask question**
 * User can **answer question**
 * User can **comment on answers**
 * User can **upvote and downvote**
 * User can **signup, login & logout**
 
-##Screen shots
-###
+## Screen shots
 <details><summary><b>Question lists</b></summary>
   <p align="center">
     <img src="myquora/img/question_lists_unauth.png" alt="Question Lists Unauth" >
@@ -18,26 +17,31 @@ A Quora like basic web-app using DJango 2.2
   <p align="center">
     <img src="myquora/img/question_lists_auth.png" alt="Question Lists auth" >
   </p>
+</details>
 
 <details><summary><b>Login</b></summary>
   <p align="center">
     <img src="myquora/img/login.png" alt="Login" >
   </p>
+</details>
 
 <details><summary><b>Ask Question</b></summary>
   <p align="center">
     <img src="myquora/img/ask.png" alt="Ask" >
   </p>
+</details>
 
 <details><summary><b>Answer Question</b></summary>
   <p align="center">
     <img src="myquora/img/answer.png" alt="Answer" >
   </p>
+</details>
 
 <details><summary><b>Question details</b></summary>
   <p align="center">
     <img src="myquora/img/question_details.png" alt="Question details" >
   </p>
+</details>
 
 
 ## Setup
@@ -98,12 +102,12 @@ pytest
 
 * [DJango 2.2.2](https://www.djangoproject.com/)
 * [Bootstrap-4](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
-* [Flate-8]()
+* Flate-8
 * [Pytest](https://docs.pytest.org/en/latest/contents.html)
 
 ## Contribute
 
-1. Please feel free to raise issue
+1. Feel free to raise issue
 2. Highly appreciate for pull request
 
 ## License
