@@ -1,7 +1,6 @@
 from __future__ import print_function
-from django.contrib.auth.models import User
-from myquora.models import Question, Answer, Comment, Author
 import pytest
+from myquora.models import Answer, Author, Question
 
 
 @pytest.fixture

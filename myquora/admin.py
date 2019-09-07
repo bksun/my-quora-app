@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from myquora.models import Author, Question, Answer, Comment
-from myquora.models import AnswerAdmin, QuestionAdmin, CommentAdmin, AuthorAdmin
+from myquora.models import (Answer, AnswerAdmin, Author, AuthorAdmin, Comment,
+                            CommentAdmin, Question, QuestionAdmin)
 
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Question, QuestionAdmin)
