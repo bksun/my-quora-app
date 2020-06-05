@@ -1,4 +1,4 @@
-Django==2.2.5
+Django==2.2.13
 flake8==3.7.7
 pytest==5.0.0
 pytest-cov==2.7.1
